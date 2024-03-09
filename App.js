@@ -6,6 +6,7 @@ export default function App() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [loggedIn, setLoggedIn] = useState(false);
+    const [meowIn, setMeowIn] = useState(false);
     const [quotes, setQuotes] = useState([
         "The greatest glory in living lies not in never falling, but in rising every time we fall. - Nelson Mandela",
         "The way to get started is to quit talking and begin doing. - Walt Disney",
@@ -43,12 +44,10 @@ export default function App() {
         "The greatest glory in living lies not in never falling, but in rising every time we fall. - Nelson Mandela",
     ]);
     const [currentQuote, setCurrentQuote] = useState(quotes[0]);
-
     const changeQuote = () => {
         const randomIndex = Math.floor(Math.random() * quotes.length);
         setCurrentQuote(quotes[randomIndex]);
     };
-
     const handleLogin = () => {
         if (username.length > 3 && password.length > 8) {
             setLoggedIn(true);
@@ -60,14 +59,8 @@ export default function App() {
 
     return (
         <View style={styles.container}>
-            <ImageBackground
-                //style={styles.image}
-                // source={require('C:\\Code\\Health2\\assets\\background empty.png')}
-                // style={styles.backgroundImage}
-                // resizeMode="cover"
-            >
+            <ImageBackground>
                 {loggedIn ? (
-                    // <Text style={styles.welcome}>Welcome, {username}!</Text>
                     <HomePage
                         username={username}
                         currentQuote={currentQuote}
@@ -79,7 +72,6 @@ export default function App() {
                             style={styles.image}
                             source={require('C:\\Code\\Health2\\assets\\Adobe_Express_20240309_0036590_1.png')}
                         />
-                        {/*<Text style={styles.heading}>Login</Text>*/}
                         <TextInput
                             style={styles.input}
                             textAlign={"center"}
@@ -97,7 +89,7 @@ export default function App() {
                             value={password}
                             onChangeText={setPassword}
                         />
-                        <CustomButton title="Login" onPress={handleLogin} />
+                        <LoginButton title="Login" onPress={handleLogin} />
                     </View>
                 )}
             </ImageBackground>
@@ -105,16 +97,18 @@ export default function App() {
     );
 }
 
-
-
-
-
 function HomePage({ username, currentQuote, changeQuote }) {
+    const handleChat = () => {
+        if (setMeowIn=false) {
+            setMeowIn(true);
+            Alert.alert('Logged in successfully!');
+        } else {
+            Alert.alert('Please enter username and password.');
+        }
+    };
     return (
         <View style={styles.container}>
-
             <View style={styles.boxContainer}>
-
                 <Image
                     style={styles.userIcon}
                     source={require('C:\\Code\\Health2\\assets\\user-icon.png')}
@@ -123,23 +117,19 @@ function HomePage({ username, currentQuote, changeQuote }) {
                     style={styles.logo}
                     source={require('C:\\Code\\Health2\\assets\\Adobe_Express_20240309_0036590_1.png')}
                 />
-            </View>
 
-            <Image
-                style={styles.centeredImage}
-                source={require('C:\\Code\\Health2\\assets\\Adobe_Express_20240308_2347100_1.png')}
-            />
+            </View>
+            {/*<Image*/}
+            {/*    style={styles.centeredImage}*/}
+            {/*    source={require('C:\\Code\\Health2\\assets\\Adobe_Express_20240308_2347100_1.png')}*/}
+            {/*/>*/}
             <View style={styles.quotecontainer}>
-                {/* Display the current quote */}
                 <Text style={styles.quote}>{currentQuote}</Text>
-                {/* Button to change the quote */}
-                <CustomButton2 title="Change Quote" onPress={changeQuote} />
+                <QuoteButton title="Change Quote" onPress={changeQuote} />
+                <ChatButton title="Meow" onPress={handleChat}
+                />
             </View>
-
-
-            {/*<ImageButton source={require('C:\\Code\\Health2\\assets\\user_847969.png')} onPress={handlePress} />*/}
         </View>
-
     )
 }
 
@@ -151,7 +141,7 @@ const ImageButton = ({ onPress, source }) => {
     );
 };
 
-const CustomButton = ({ onPress, title }) => {
+const LoginButton = ({ onPress, title }) => {
     return (
         <View style={styles.containerbutton}>
             <TouchableOpacity style={styles.button} onPress={onPress}>
@@ -159,11 +149,22 @@ const CustomButton = ({ onPress, title }) => {
             </TouchableOpacity>
         </View>
     );
-};const CustomButton2 = ({ onPress, title }) => {
+};
+
+const QuoteButton = ({ onPress, title }) => {
     return (
         <View style={styles.containerbutton}>
             <TouchableOpacity style={styles.buttonquote} onPress={onPress}>
                 <Text style={styles.buttonTextquote}>{title}</Text>
+            </TouchableOpacity>
+        </View>
+    );
+};
+const ChatButton = ({ onPress, title }) => {
+    return (
+        <View style={styles.containerbuttonchat}>
+            <TouchableOpacity style={styles.chatbuttonstyle} onPress={onPress}>
+                <Text style={styles.buttonquote}>{title}</Text>
             </TouchableOpacity>
         </View>
     );
@@ -180,13 +181,8 @@ const styles = StyleSheet.create({
     container2: {//homepage
         flex: 0.1,
         backgroundColor: 'black',
-        // alignItems: 'center',
-        // justifyContent: 'center',
-        // padding: 20,
     },
-
     input: {//username & password
-
         height: 40,
         width: 200,
         borderColor: 'gray',
@@ -206,9 +202,16 @@ const styles = StyleSheet.create({
         marginLeft:7,
     },
     containerbutton: {//login button
-        // flex: 0.1,
+        // flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        margin:15,
+    },
+    containerbuttonchat: {//login button
+        // flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom:5,
     },
     button: {//login button
         backgroundColor: 'darkgrey',
@@ -216,7 +219,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 35,
         borderRadius: 5,
     },
-
     buttonText: {//login button
         color: 'white',
         fontSize: 16,
@@ -228,13 +230,11 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     buttonquote: {//login button
-        // position:'absolute',
         backgroundColor: 'darkgrey',
         paddingVertical: 10,
         paddingHorizontal: 35,
         borderRadius: 5,
     },
-
     logo: {//icon top left corner
         position: 'absolute',
         top: -50,
@@ -249,14 +249,12 @@ const styles = StyleSheet.create({
         width: 40,
         height: 40,
     },
-
     centeredImage: {//style for api with steps
         width: 200,
         height: 200,
     },
     quotecontainer: {
         flex: 0.7,
-
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -264,17 +262,17 @@ const styles = StyleSheet.create({
         margin: 10,
         color: 'grey',
         fontSize: 20,
-
         textAlign: 'center',
     },
     boxContainer:{
-        // shadowColor: '#000',
-        // shadowOffset: { width: 0, height: 2 },
-        // shadowOpacity: 0.8,
-        // shadowRadius: 2,
         height:200,
         margin: 20,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginLeft: 10,
+    },
+    chatbuttonstyle: {
+        marginBottom: 100,
+        textAlign: 'left',
     }
 });

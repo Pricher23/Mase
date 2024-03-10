@@ -136,7 +136,7 @@ function HomePage({ username, currentQuote, changeQuote }) {
             </View>
             <ImageBackground>
                 {meowIn ? (
-                    <ChatPage/>
+                    <HomePage/>
                 ) : (
                     <View>
                         <Image

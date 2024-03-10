@@ -6,7 +6,7 @@ export default function App() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [loggedIn, setLoggedIn] = useState(false);
-    const [meowIn, setMeowIn] = useState(false);
+
     const [quotes, setQuotes] = useState([
         "The greatest glory in living lies not in never falling, but in rising every time we fall. - Nelson Mandela",
         "The way to get started is to quit talking and begin doing. - Walt Disney",
@@ -97,15 +97,21 @@ export default function App() {
     );
 }
 
+function ChatPage({username}) {
+    const [meowIn, setMeowIn] = useState(false);
+
+}
+
 function HomePage({ username, currentQuote, changeQuote }) {
+    const [meowIn, setMeowIn] = useState(false);
+
     const handleChat = () => {
-        if (setMeowIn=false) {
-            setMeowIn(true);
-            Alert.alert('Logged in successfully!');
-        } else {
-            Alert.alert('Please enter username and password.');
-        }
+        // Instead of checking for username and password length,
+        // directly set loggedIn to true
+        setMeowIn(true);
+        Alert.alert('Logged in successfully!');
     };
+
     return (
         <View style={styles.container}>
             <View style={styles.boxContainer}>
@@ -117,21 +123,34 @@ function HomePage({ username, currentQuote, changeQuote }) {
                     style={styles.logo}
                     source={require('C:\\Code\\Health2\\assets\\Adobe_Express_20240309_0036590_1.png')}
                 />
-//nothing new
+                {/*<Image*/}
+                {/*    style={styles.centeredImage}*/}
+                {/*    source={{uri: "https://i0.wp.com/www.printmag.com/wp-content/uploads/2021/02/4cbe8d_f1ed2800a49649848102c68fc5a66e53mv2.gif?fit=476%2C280&ssl=1"}}*/}
+                {/*/>*/}
+                <View style={styles.quotecontainer}>
+                    <Text style={styles.quote}>{currentQuote}</Text>
+                    <QuoteButton title="Change Quote" onPress={changeQuote} />
+                    {/* Call handleChat when the ChatButton is pressed */}
+                    <ChatButton title="Meow" onPress={handleChat} />
+                </View>
             </View>
-            {/*<Image*/}
-            {/*    style={styles.centeredImage}*/}
-            {/*    source={require('C:\\Code\\Health2\\assets\\Adobe_Express_20240308_2347100_1.png')}*/}
-            {/*/>*/}
-            <View style={styles.quotecontainer}>
-                <Text style={styles.quote}>{currentQuote}</Text>
-                <QuoteButton title="Change Quote" onPress={changeQuote} />
-                <ChatButton title="Meow" onPress={handleChat}
-                />
-            </View>
+            <ImageBackground>
+                {meowIn ? (
+                    <ChatPage/>
+                ) : (
+                    <View>
+                        <Image
+                            style={styles.centeredImage}
+                            source={{uri: "https://i0.wp.com/www.printmag.com/wp-content/uploads/2021/02/4cbe8d_f1ed2800a49649848102c68fc5a66e53mv2.gif?fit=476%2C280&ssl=1"}}
+                        />
+
+                    </View>
+                )}
+            </ImageBackground>
         </View>
-    )
+    );
 }
+
 
 const ImageButton = ({ onPress, source }) => {
     return (
@@ -237,15 +256,15 @@ const styles = StyleSheet.create({
     },
     logo: {//icon top left corner
         position: 'absolute',
-        top: -50,
-        left: -180,
+        top: -190,
+        left: -50,
         width: 70,
         height: 40,
     },
     userIcon: {//icon top right corner
         position: 'absolute',
-        top: -50,
-        right: -180,
+        top: -190,
+        right: -50,
         width: 40,
         height: 40,
     },

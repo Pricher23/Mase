@@ -117,7 +117,7 @@ function HomePage({ username, currentQuote, changeQuote }) {
                     style={styles.logo}
                     source={require('C:\\Code\\Health2\\assets\\Adobe_Express_20240309_0036590_1.png')}
                 />
-
+//nothing new
             </View>
             {/*<Image*/}
             {/*    style={styles.centeredImage}*/}
